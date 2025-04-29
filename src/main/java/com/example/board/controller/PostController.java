@@ -9,8 +9,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
-
-import java.awt.print.Pageable;
+import org.springframework.data.domain.Pageable;
 
 @RestController
 @RequestMapping("/api/posts")
@@ -25,6 +24,7 @@ public class PostController {
     }
 
     // 게시물 전체 조회 (페이징)
+    @GetMapping
     public Page<PostPagingDto> getAllPosts(Pageable pageable) {
         return postService.getAllPosts(pageable);
     }
@@ -35,11 +35,13 @@ public class PostController {
         return postService.getPostById(id);
     }
 
+    // 게시판 수정
     @PatchMapping("/{id}")
     public void updatePost(@PathVariable Long id, @RequestBody @Valid PostUpdateDto postUpdateDto) {
         postService.updatePost(id, postUpdateDto);
     }
 
+    // 게시판 삭제
     @DeleteMapping("/{id}")
     public void deletePost(@PathVariable Long id) {
         postService.deletePost(id);

@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class PostServiceImpl {
+public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
 
     //게시물 생성
@@ -41,14 +41,33 @@ public class PostServiceImpl {
     }
 
     //게시물 수정
+    @Override
+    @Transactional
     public void updatePost(Long id, PostUpdateDto postUpdateDto) {
+        // 1) 기존 게시글 조회
         Board board = postRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시물이 존재하지 않습니다. id=" + id));
+
+        // 2) Optional로 들어온 title, content를 꺼내서 update 메서드에 넘김
+        //      null 도는 빈 문자열이면 엔티티 쪽에서 무시하도록 설계되어 있음
+        board.update(
+                postUpdateDto.title().orElse(null),
+                postUpdateDto.content().orElse(null)
+        );
+        // save 호출 불필요
     }
 
     //게시물 삭제
+    @Override
+    @Transactional
     public void deletePost(Long id) {
         Board board = postRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시물이 존재하지 않습니다. id=" + id));
+        postRepository.delete(board);
+    }
+
+    @Override
+    public PostInfoDto getPostInfo(Long id) {
+        return getPostById(id);
     }
 }

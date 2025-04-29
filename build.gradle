@@ -35,8 +35,18 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
+	testImplementation 'org.hamcrest:hamcrest-core:2.2'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
+}
+
+test {
+	// JUnit Platform (JUnit 5) 사용
+	useJUnitPlatform()
+	// (원한다면) 테스트 로깅 강화
+	testLogging {
+		events "passed", "skipped", "failed"
+	}
 }
 
 tasks.named('test') {

@@ -1,7 +1,9 @@
 package com.example.board.dto;
 
 import com.example.entity.Board;
+import lombok.Getter;
 
+@Getter
 public class PostPagingDto {
     private Long id;
     private String title;

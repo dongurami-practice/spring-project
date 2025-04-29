@@ -6,8 +6,7 @@ import com.example.board.dto.PostSaveDto;
 import com.example.board.dto.PostUpdateDto;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
-
-import java.awt.print.Pageable;
+import org.springframework.data.domain.Pageable;
 
 public interface PostService {
 
